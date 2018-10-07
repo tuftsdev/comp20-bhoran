@@ -13,8 +13,62 @@
 <video src="https://www.cs.tufts.edu/comp/20/wedo.mp4" id="wedo" controls></video>
 <div id="lyrics"></div>
 
-<script>
-	// Complete this section and create a CSS file named style.css
+<script type="text/javascript">
+
+	var video = document.getElementById("wedo");
+	var lyrics = document.getElementById("lyrics");
+
+	console.log("Before Function");
+
+	video.addEventListener("timeupdate", function(){
+		
+		console.log("In the function");
+
+		if (video.currentTime < 4) {
+			lyrics.innerHTML ="<p>Snazzy Instrumental Music</p>";
+		}
+		else if (video.currentTime > 4 && video.currentTime < 6) {
+			lyrics.innerHTML = "<p>Who controls the British Crown?</p>";
+		}
+		else if (video.currentTime > 6 && video.currentTime < 8) {
+			lyrics.innerHTML = "<p>Who keeps the metric system down?</p>";
+		}
+		else if (video.currentTime > 8 && video.currentTime < 12) {
+			lyrics.innerHTML = "<h2>We do, we do!</h2>";
+		}
+		else if (video.currentTime > 12 && video.currentTime < 14) {
+			lyrics.innerHTML = "<p>Who keeps Atlantis off the maps?</p>";
+		}
+		else if (video.currentTime > 14 && video.currentTime < 17) {
+			lyrics.innerHTML = "<p>Who keeps the Martians under wraps</p>";
+		}
+		else if (video.currentTime > 17 && video.currentTime < 21) {
+			lyrics.innerHTML = "<h2>We do, we do!</h2>";
+		}
+		else if (video.currentTime > 21 && video.currentTime < 25) {
+			lyrics.innerHTML = "<p>Who holds back the electric car?</p>";
+		}
+		else if (video.currentTime > 25 && video.currentTime < 29) {
+			lyrics.innerHTML = "<p>Who makes Steve Guttenberg a star?</p>";
+		}
+		else if (video.currentTime > 29 && video.currentTime < 33) {
+			lyrics.innerHTML = "<h2>We do, we do!</h2>";
+		}
+		else if (video.currentTime > 33 && video.currentTime < 36) {
+			lyrics.innerHTML = "<p>Who robs cavefish of their sight?</p>";
+		}
+		else if (video.currentTime > 36 && video.currentTime < 38) {
+			lyrics.innerHTML = "<p>Who rigs every Oscar night?</p>";
+		}
+		else if (video.currentTime > 38 && video.currentTime < 44) {
+			lyrics.innerHTML = "<h2>We do, we do!</h2>";
+		}
+		else {
+			lyrics.innerHTML ="";
+		}
+		}, false);
+
+
 </script>
 </body>
 </html>	

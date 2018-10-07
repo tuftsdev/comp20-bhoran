@@ -1,7 +1,7 @@
-Correctly implemented
+Correctly implemented: Captions 
 
-Not correctly implemented
+Not correctly implemented Hopefully nothing!
 
-Collaborated with
+Collaborated with: didn't really
 
-Hours Spent
+Hours Spent: around 3
