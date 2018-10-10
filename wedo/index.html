@@ -18,11 +18,7 @@
 	var video = document.getElementById("wedo");
 	var lyrics = document.getElementById("lyrics");
 
-	console.log("Before Function");
-
 	video.addEventListener("timeupdate", function(){
-		
-		console.log("In the function");
 
 		if (video.currentTime < 4) {
 			lyrics.innerHTML ="<p>Snazzy Instrumental Music</p>";
@@ -40,7 +36,7 @@
 			lyrics.innerHTML = "<p>Who keeps Atlantis off the maps?</p>";
 		}
 		else if (video.currentTime > 14 && video.currentTime < 17) {
-			lyrics.innerHTML = "<p>Who keeps the Martians under wraps</p>";
+			lyrics.innerHTML = "<p>Who keeps the Martians under wraps?</p>";
 		}
 		else if (video.currentTime > 17 && video.currentTime < 21) {
 			lyrics.innerHTML = "<h2>We do, we do!</h2>";
@@ -54,10 +50,10 @@
 		else if (video.currentTime > 29 && video.currentTime < 33) {
 			lyrics.innerHTML = "<h2>We do, we do!</h2>";
 		}
-		else if (video.currentTime > 33 && video.currentTime < 36) {
+		else if (video.currentTime > 33 && video.currentTime < 35.75) {
 			lyrics.innerHTML = "<p>Who robs cavefish of their sight?</p>";
 		}
-		else if (video.currentTime > 36 && video.currentTime < 38) {
+		else if (video.currentTime > 35.75 && video.currentTime < 38) {
 			lyrics.innerHTML = "<p>Who rigs every Oscar night?</p>";
 		}
 		else if (video.currentTime > 38 && video.currentTime < 44) {
