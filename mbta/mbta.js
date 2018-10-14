@@ -1,0 +1,1 @@
+/*Generic JavaScript outline*/
