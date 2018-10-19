@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 
-<!--Generic index outline-->
-
 <html>
 <head>
-<meta charset="utf-8" />
-<title></title>
-<link rel="stylesheet" href="style.css" type="text/css" />
+	<meta charset="utf-8" />
+	<title>MBTA Map</title>
+	<link rel="stylesheet" href="style.css" type="text/css" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBnvHlXC3uRbZ0Kf1jdzEX9qIYbVL6D4Ek&callback=initMap"
+  type="text/javascript"></script>
+	<script src="mbta.js"></script>
+
 </head>
 
-<body>
-
-<script src="mbta.js"></script>
-
+<body onload="initMap()">
+	<div id="map"></div>
+	
 </body>
 </html>	
