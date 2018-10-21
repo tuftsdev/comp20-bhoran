@@ -97,11 +97,22 @@ function setTstops(map){
 		title: t[0],
 		zIndex: t[3],
 		});
-	}
 
+	timeTable(marker);
+	}
 	redLine();
 
 }
+
+function timeTable(marker){
+	// Open info window on click of marker
+	google.maps.event.addListener(marker, 'click', function() {
+		var infowindow = new google.maps.InfoWindow({
+			content: marker.title});
+		infowindow.open(map, marker);
+	});
+}
+
 
 function redLine(){
 
@@ -186,8 +197,7 @@ function renderMap() {
 	// Open info window on click of marker
 	google.maps.event.addListener(marker, 'click', function() {
 		var infowindow = new google.maps.InfoWindow({
-  content: marker.title});
-		//infowindow.setContent(marker.title);
+			content: marker.title});
 		infowindow.open(map, marker);
 	});
 }
