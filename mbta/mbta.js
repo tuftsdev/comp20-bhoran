@@ -20,32 +20,7 @@ var me = new google.maps.LatLng(myLat, myLng)
 
 function setTstops(map){
 
-		var tStops = /*[
-		['place-sstat', 42.352271, -71.05524200000001, 1],
-		['place-andrw', 42.330154, -71.057655, 2],
-		['place-portr', 42.3884, -71.11914899999999, 3],
-		['place-harsq', 42.373362, -71.118956,4],
-		['place-jfk', 42.320685, -71.052391,5],
-		['place-shmnl', 42.31129, -71.053331,6],
-		['place-pktrm', 42.35639457, -71.0624242,7],
-		['place-brdwy', 42.342622, -71.056967,8],
-		['place-nqncy', 42.275275, -71.029583,9],
-		['place-smmnl', 42.29312583, -71.06573796000001,10],
-		['place-davis', 42.39674, -71.121815,11],
-		['place-alfcl', 42.395428,-71.142483,12],
-		['place-knncl',42.36249079,-71.08617653,13],
-		['place-chmnl', 42.361166, -71.070628,14],
-		['place-dwnxg', 42.355518, -71.060225,15],
-		['place-qnctr', 42.251809,-71.005409,16],
-		['place-qamnl', 42.233391, -71.007153,17],
-		['place-asmnl', 42.284652, -71.06448899999999,18],
-		['place-wlsta', 42.2665139, -71.0203369,19],
-		['place-fldcr', 42.300093, -71.061667,20],
-		['place-cntsq', 42.365486, -71.103802,21],
-		['place-brntn', 42.2078543, -71.0011385,22],
-	]*/
-
-	[
+	var tStops =[
 		['place-sstat', 42.352271, -71.05524200000001, 1, 'South Station'],
 		['place-andrw', 42.330154, -71.057655, 2, 'Andrew'],
 		['place-portr', 42.3884, -71.11914899999999, 3, 'Porter Square'],
@@ -116,7 +91,40 @@ function httpRequest(marker){
 	// Step 3: Set up handler / callback function to deal with HTTP response
 	request.onreadystatechange = function() {
 	  // Step 5: Get and parse data
-	if (request.readyState == 4 && request.status == 200) {
+	// if (request.readyState == 4 && request.status == 200) {
+	// 		var theData = request.responseText;
+	// 		messages = JSON.parse(theData);
+
+	// 		sched = "Arrival Times " + marker.customInfo + '<br/>';
+
+	// 		console.log(messages);
+
+	// 		for(var i = 0; i < messages.data.length; i++){
+	// 			if(messages.data[i].attributes.arrival_time != undefined){
+	// 				sched += '<p>';
+	// 				sched += messages.data[i].attributes.arrival_time;
+	// 				sched += '</p>';
+	// 			}
+	// 			else if(messages.data.length == 0){
+	// 				sched += "Not Available";
+	// 			}
+	// 			else{
+	// 				sched += 'To Be Determined';
+	// 			}
+
+	// 			var infowindow = new google.maps.InfoWindow({
+	// 				content: sched
+	// 			});
+
+	// 			marker.addListener('click', function() {
+	// 				infowindow.open(map, marker);
+	// 			});
+	// 		}
+	// 	}
+	// }
+
+
+		if (request.readyState == 4 && request.status == 200) {
 			var theData = request.responseText;
 			messages = JSON.parse(theData);
 
@@ -124,17 +132,44 @@ function httpRequest(marker){
 
 			console.log(messages);
 
+			//Take Wollaston into Account
+			if(messages.data.length == 0){
+				sched = "Not Available";
+
+				var infowindow = new google.maps.InfoWindow({
+					content: sched
+				});
+
+				marker.addListener('click', function() {
+					infowindow.open(map, marker);
+				});
+
+				return;
+			}
+
+			// for(var i = 0; i < messages.data.length; i++){
+			// 	if(messages.data[i].attributes.arrival_time != undefined){
+			// 		sched += '<p>';
+			// 		sched += messages.data[i].attributes.arrival_time;
+			// 		sched += '</p>';
+			// 	}
+			// 	else if(messages.data.length == 0){
+			// 		sched += "Not Available";
+			// 	}
+			// 	else{
+			// 		sched += 'To Be Determined';
+			// 	}
 			for(var i = 0; i < messages.data.length; i++){
 				if(messages.data[i].attributes.arrival_time != undefined){
 					sched += '<p>';
-					sched += messages.data[i].attributes.arrival_time;
+					sched += new Date(messages.data[i].attributes.arrival_time);
 					sched += '</p>';
 				}
-				else if(messages.data.length == 0){
-					sched += "Not Available";
-				}
 				else{
-					sched += 'To Be Determined';
+					sched += "Departure Times: ";
+					sched += '<p>';
+					sched += new Date(messages.data[i].attributes.departure_time);
+					sched += '</p>';
 				}
 
 				var infowindow = new google.maps.InfoWindow({
