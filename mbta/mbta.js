@@ -91,48 +91,13 @@ function httpRequest(marker){
 	// Step 3: Set up handler / callback function to deal with HTTP response
 	request.onreadystatechange = function() {
 	  // Step 5: Get and parse data
-	// if (request.readyState == 4 && request.status == 200) {
-	// 		var theData = request.responseText;
-	// 		messages = JSON.parse(theData);
-
-	// 		sched = "Arrival Times " + marker.customInfo + '<br/>';
-
-	// 		console.log(messages);
-
-	// 		for(var i = 0; i < messages.data.length; i++){
-	// 			if(messages.data[i].attributes.arrival_time != undefined){
-	// 				sched += '<p>';
-	// 				sched += messages.data[i].attributes.arrival_time;
-	// 				sched += '</p>';
-	// 			}
-	// 			else if(messages.data.length == 0){
-	// 				sched += "Not Available";
-	// 			}
-	// 			else{
-	// 				sched += 'To Be Determined';
-	// 			}
-
-	// 			var infowindow = new google.maps.InfoWindow({
-	// 				content: sched
-	// 			});
-
-	// 			marker.addListener('click', function() {
-	// 				infowindow.open(map, marker);
-	// 			});
-	// 		}
-	// 	}
-	// }
-
-
 		if (request.readyState == 4 && request.status == 200) {
 			var theData = request.responseText;
 			messages = JSON.parse(theData);
 
-			sched = "Arrival Times " + marker.customInfo + '<br/>';
+			sched = "Arrival Times: " + marker.customInfo + '<br/>';
 
-			console.log(messages);
-
-			//Take Wollaston into Account
+			//Take Wollaston and closed into Account
 			if(messages.data.length == 0){
 				sched = "Not Available";
 
@@ -146,30 +111,25 @@ function httpRequest(marker){
 
 				return;
 			}
-
-			// for(var i = 0; i < messages.data.length; i++){
-			// 	if(messages.data[i].attributes.arrival_time != undefined){
-			// 		sched += '<p>';
-			// 		sched += messages.data[i].attributes.arrival_time;
-			// 		sched += '</p>';
-			// 	}
-			// 	else if(messages.data.length == 0){
-			// 		sched += "Not Available";
-			// 	}
-			// 	else{
-			// 		sched += 'To Be Determined';
-			// 	}
+			
+			counter = 0;
 			for(var i = 0; i < messages.data.length; i++){
 				if(messages.data[i].attributes.arrival_time != undefined){
 					sched += '<p>';
 					sched += new Date(messages.data[i].attributes.arrival_time);
 					sched += '</p>';
 				}
-				else{
-					sched += "Departure Times: ";
+				else if(messages.data[i].attributes.departure_time != undefined){
+					if(counter == 0){
+						sched += "Departure Times: " + marker.customInfo +'<br/>';
+						counter++;
+					}
 					sched += '<p>';
 					sched += new Date(messages.data[i].attributes.departure_time);
 					sched += '</p>';
+				}
+				else{
+					sched += '<p>' + "TBD" + "</p>";
 				}
 
 				var infowindow = new google.maps.InfoWindow({
@@ -182,12 +142,10 @@ function httpRequest(marker){
 			}
 		}
 	}
-//if null no trains acaiafdsjf
 	request.setRequestHeader('Content-Type', 'application/xml');
 
 	// Step 4: Send ("fire off") the request
 	request.send();
-
 }
 
 
