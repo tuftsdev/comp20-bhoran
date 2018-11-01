@@ -1,4 +1,4 @@
-#README
+README
 
 1) Correctly Implemented:
 2) Not Correctly Implemented:
