@@ -8,60 +8,33 @@
     <link rel="stylesheet" href="style.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
-// key should not be date
-// get the logs from before, make it word
-// ley logs
-// value date + word?
-//jquery way = message.value
 
-function add_to_log(element){
+    function add_to_log(element){
 
+        if(element.keyCode == 13){
+            var output = "";
 
-    if(element.keyCode == 13){
-        var output = "";
+            date = new Date();
+            txt = date + " - " + document.getElementById("msg").value;
 
-        txt = document.getElementById("msg").value;
-        localStorage[new Date().getTime()] = txt;
+            localStorage["log"] = '<p>' + txt + '</p>' + localStorage["log"];
 
+            //for (var i = localStorage.length -1; i >= 0; i--) {
+                output = /*output + "<p>" + */localStorage.getItem(localStorage.key(0)) /*+ "</p>\n"*/;
+            //}
 
-        for (var i = 0; i < localStorage.length; i++) {
-            output = output + "<p>" + localStorage.getItem(localStorage.key(i)) + "</p>\n";
+            page = document.getElementById("log");
+            page.innerHTML = "<p>" + output + "</p>";
+
+            document.getElementById("msg").value = "";
         }
 
-
-        page = document.getElementById("log");
-        page.innerHTML = "<p>" + output/*localStorage['log']*/ + "</p>";
-
-        document.getElementById("msg").value = "";
-    }
-
-};
-
+    };
     $(document).ready(function(){
-
-        //var output.val()
-        console.log($("#msg"));
+        localStorage["log"] = '';
         $("#msg").on("keydown", add_to_log);
 
-
-
-
-
-    // elem = document.getElementById("results");
-    // output = "";
-    // // Source: https://stackoverflow.com/questions/3138564/looping-through-localstorage-in-html5-and-javascript
-    // for (var i = 0; i < localStorage.length; i++) {
-    //     output = output + "<p>" + localStorage.getItem(localStorage.key(i)) + "</p>\n";
-    //     }
-    // elem.innerHTML = output;
-
-
-
-
-
     });
-
-
 
     </script>
 </head>
