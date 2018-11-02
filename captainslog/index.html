@@ -9,37 +9,39 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     
     <script>
-    function add_to_log(element){
+        function add_to_log(element){
+            if(localStorage["log"] == null){
+                localStorage["log"] = '';            
+            }
 
-        if(localStorage["log"] != null){
-            output = localStorage.getItem(localStorage.key(0));
-            page = $("#log");
-            $(page).html("<p>" + output + "</p>");
-        }
+            if(localStorage["log"] != null){
+                output = '';
+                output = localStorage.getItem(localStorage.key(0));
+                page = $("#log");
+                $(page).html("<p>" + output + "</p>");
+            }
 
 
-        if(element.keyCode == 13){
-            var output = "";
+            if(element.keyCode == 13){
+                var output = "";
 
-            date = new Date();
-            txt = date + " - " + document.getElementById("msg").value;
+                date = new Date();
+                txt = date + " - " + document.getElementById("msg").value;
 
-            localStorage["log"] = '<p>' + txt + '</p>' + localStorage["log"];
+                localStorage["log"] = '<p>' + txt + '</p>' + localStorage["log"];
 
-            //for (var i = localStorage.length -1; i >= 0; i--) {
-                output = /*output + "<p>" + */localStorage.getItem(localStorage.key(0)) /*+ "</p>\n"*/;
-            //}
+                    output = localStorage.getItem(localStorage.key(0));
 
-            page = $("#log");
-            $(page).html("<p>" + output + "</p>");
+                page = $("#log");
+                $(page).html("<p>" + output + "</p>");
 
-            document.getElementById("msg").value = "";
-        }
-    };
-    $(document).ready(function(){
-        //localStorage["log"] = '';
-        $("#msg").on("keydown", add_to_log);
-    });
+                document.getElementById("msg").value = "";
+            }
+        };
+
+        $(document).ready(function(){
+            $("#msg").on("keydown", add_to_log);
+        });
     </script>
 
 </head>

@@ -4,6 +4,6 @@ README
 
 2) Not Correctly Implemented: Hopefully Nothing!
 
-3) Worked with: Josh and Leona
+3) Worked with: Josh, Leona, Ralfi
 
 4) Hours Spent: productively? ~3
