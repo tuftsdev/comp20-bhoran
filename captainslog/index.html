@@ -11,6 +11,13 @@
     <script>
     function add_to_log(element){
 
+        if(localStorage["log"] != null){
+            output = localStorage.getItem(localStorage.key(0));
+            page = $("#log");
+            $(page).html("<p>" + output + "</p>");
+        }
+
+
         if(element.keyCode == 13){
             var output = "";
 
@@ -28,10 +35,9 @@
 
             document.getElementById("msg").value = "";
         }
-
     };
     $(document).ready(function(){
-        localStorage["log"] = '';
+        //localStorage["log"] = '';
         $("#msg").on("keydown", add_to_log);
     });
     </script>
