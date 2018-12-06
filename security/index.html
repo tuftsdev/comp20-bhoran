@@ -4,6 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>Security - Assignment 4</title>
+	<link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 
 <body>
@@ -37,7 +38,6 @@
 			
 
 			nosql
-			we didnt use sql so not that
 			xss
 			hardcode credentials
 			create json object in data
@@ -49,9 +49,9 @@
 			scores.json?username[$ne]=
 
 			trick username to be script tag
-			curl --data "username=<script>alert("Brigid");</script>&score=2&grid={}
+			curl --data "username= script>alert("Brigid");</script>&score=2&grid={}
 
-			curl --data "username=<script>alert("Brigid");</script>&score=79&grid={}" https://secret-oasis-38538.herokuapp.com/submit
+			curl --data "username= script>alert("Brigid");</script>&score=79&grid={}" https://secret-oasis-38538.herokuapp.com/submit
 		</p>
 
 	<h2>Conclusion</h2>
