@@ -18,11 +18,9 @@
 		</ul>
 
 	<h2>Methodology</h2>
-		<p>Describe your methodology pen testing the application, including the tools that you used
-			1) Black Box Testing- I began with tests for simple things covered in class: XSS and insertation attacts in scores.json by using $ne. The XSS attack was sucessful, but the insertion was not
-			2) White Box Testing- Looking into the code didnt provide any notable vunerabilities. In fact, it just explained why my previous attempt at insertion didnt work. The 
-
-		</p>
+		<p>Black Box Testing- I began with tests for simple things covered in class, without looking at the code: XSS using curl on the submit route and NoSQL injection attacks in the scores.json route by using the query operand [$ne]. The XSS attack was sucessful, but the injection was not, so I then viewed the code begin white box testing.</p>
+		<p>White Box Testing- Looking into the code didn't provide any immediately notable vunerabilities, like hardcoded passwords or bad coding practice. In fact, it just explained why my previous attempt at injection didnt work, since instead of using the find function on the collection to query for usernames, he used a filter function. However, I noticed that this app uses cors as a dependency. When looking into this, the default configuration of the cors dependency includes "origin" = "*", giving access-control-allow-origin power to any origin, since the asterisk is a wildcard. Additionally, by looking at the code I knew the server used a MongoDB database. Access to the Heroku app allowed me to go into mLab and check that this app uses the free version of MongoDB, which I decided to spam in an DDOS attack, or Distributed Denial of Service Attack. I used a bash script in terminal(s) to try to overwhelm the application, either through Heroku or MongoDB, as I wasn't sure what would break first.</p>
+		<p>Tools: curl, bash script</p>
 
 	<h2>Abstract of Findings</h2>
 		<p>Provide an overview of all the security and privacy issues you identified. This section should be written for non-technical managers who do not have technical expertise and do not have time to read the entire document. Write this section using lay language.</p>
@@ -45,7 +43,7 @@
 
 			nosql
 			xss
-			hardcode credentials
+
 			create json object in data
 			sql getting data that youre not expected to
 			expecting sting name but instead has another field to confuse mongo dn
@@ -71,6 +69,7 @@
 			<li><a href="https://medium.com/bugbountywriteup/exploiting-apis-with-postman-and-google-chrome-ade13ce74e2b">https://medium.com/bugbountywriteup/exploiting-apis-with-postman-and-google-chrome-ade13ce74e2b</a></li>
 			<li><a href="https://github.com/tuftsdev/WebProgramming/tree/gh-pages/examples">https://github.com/tuftsdev/WebProgramming/tree/gh-pages/examples</a></li>
 			<li><a href="https://ryanstutorials.net/bash-scripting-tutorial/bash-loops.php">https://ryanstutorials.net/bash-scripting-tutorial/bash-loops.php</a></li>
+			<li><a href="https://www.npmjs.com/package/cors">https://www.npmjs.com/package/cors</a></li>
 		</ul>
 
 </body>
