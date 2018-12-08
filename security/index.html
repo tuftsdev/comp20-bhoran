@@ -26,55 +26,64 @@
 		<p>The main issues present in the app are Cross Site Scripting, Access-Control-Allow-Origin, and Distributed Denial of Service attacks. Cross Site Scripting allows users to enter potentially malicious content, altering the page, using JavaScript tags. Since Access-Control-Allow-Origin is not restricted at all, any webpage has access to the private information held on the server. Distributed Denial of Service consists of an overloaded server, crashing the app and preventing users from accessing it.</p>
 
 	<h2>Issues Found</h2>
-		<p><em>Cross Site Scripting (XSS)</em></p>
-		<p>Found in index.js, in the POST submit path</p>
-		<p>Severity of issue: Medium. Allows attacker to hijack the page using JavaScript, allowing potentially malicious actions, such as redirecting the user to an undesired site, taking control of the 2048 site, or accessing cookies or local storage (if the application has them, although this app does not). However can be fixed relatively easily through character stripping.</p>
-		<p>Description of issue: Cross-Site Scripting is when user input uses JavaScript to trick the application into behaving differently. By using script tags in the username value, it allows editing of the original content</p>
-		<p>This can be found using curl, however would also work from the 2048 webpage, as either way the submit route does not strip characters.</p>
-		<p>An example of how to change the username would be to use	curl --data "username= <"script">alert("Brigid");</"script">&score=79&grid={}" URL (without the quotes within the script tag, those are there to prevent this page from having an alert show up)</p>
-		<img src="curl_xss.png" alt="screen shot of terminal command line, with the command curl --data and information, being sent to a website https://secret-oasis-38538.herokuapp.com/submit"/>
-		<img src="alert_popup_window.png" alt="Screen shot of HTML page covered by a pop up window that says Brigid"/>
-		<p>This can be resolved by validating the user input, and checking for concerning such as "<" or ">". They can be replaced with equilvant values, like & lt; or & gt; (without the space between & and letters)SHOW CODE</p>
+		<h3>Cross Site Scripting (XSS)</h3>
+			<p>Found in index.js, in the POST submit path</p>
+			<p>Severity of issue: Medium. Allows attacker to hijack the page using JavaScript, allowing potentially malicious actions, such as redirecting the user to an undesired site, taking control of the 2048 site, or accessing cookies or local storage (if the application has them, although this app does not). However can be fixed relatively easily through character stripping.</p>
+			<p>Description of issue: Cross-Site Scripting is when user input uses JavaScript to trick the application into behaving differently. By using script tags in the username value, it allows editing of the original content</p>
+			<p>This can be found using curl, however would also work from the 2048 webpage, as either way the submit route does not strip characters.</p>
+			<p>An example of how to change the username would be to use	curl --data "username= <"script">alert("Brigid");</"script">&score=79&grid={}" URL (without the quotes within the script tag, those are there to prevent this page from having an alert show up)</p>
+			<figure>
+				<img src="curl_xss.png" alt="screen shot of terminal command line, with the command curl --data and information, being sent to a website https://secret-oasis-38538.herokuapp.com/submit"/>
+			</figure>
+			<figure>
+				<img src="alert_popup_window.png" alt="Screen shot of HTML page covered by a pop up window that says Brigid" style="width:800px"/>
+			</figure>	
+			<p>This can be resolved by validating the user input, and checking for concerning such as "<" or ">". They can be replaced with equilvant values, like & lt; or & gt; (without the space between & and letters).</p>
+			
+		<h3>Access-Control-Allow-Origin</h3>
+			<p>Located in index.js/package.json, since uses the cors dependancy</p>
+			<p>Severity of issue: High. With a wildcard, this allows a web page to ignore the same origin policy, meaning it can access data from another webpage, allowing a potentially malicious script gain access to sensitive information on the other web page using the Document Object Model</p>
+			<p>The server uses the default version of cors and was unedited to only accept requests from verified origins.</p>
+			<figure>
+				<img src="cors_in_server.png" alt="Where cors dependency is used in server"/>
+			</figure>
+			<figure>
+				<img src="npm_cors.png" alt="npm's display of default configuration"/>
+				<figcaption>Cross Origin Resource Sharing Default. From Node Package Manager page (see reference 5)</figcaption>
+			</figure>
+			<p>This could be fixed by changing the origin from a wildcard (*), to just allowing submits from the 2048 game server.</p>
+			<figure>	
+				<img src="npm_cors_specific.png" alt="npm's example limiting configuration"/>
+			</figure>
 		
-		<p><em>Access-Control-Allow-Origin</em></p>
-		<p>Located in index.js/package.json, since uses the cors dependancy</p>
-		<p>Severity of issue: High. With a wildcard, this allows a web page to ignore the same origin policy, meaning it can access data from another webpage, allowing a potentially malicious script gain access to sensitive information on the other web page using the Document Object Model</p>
-		<p>The server uses the default version of cors and was unedited to only accept requests from verified origins.
-		<img src="cors_in_server.png" alt="Where cors dependency is used in server"/>
-		<img src="npm_cors.png" alt="npm's display of default configuration"/>		
-		<p>This could be fixed by changing the origin from a wildcard (*), to just allowing submits from the 2048 game serverResolution.</p>
-		<img src="npm_cors_specific.png" alt="npm's example limiting configuration"/>
-		</p>
-		
-		<p><em>Distributed Denial of Service</em></p>
-		<p>Located in the Heroku app, used POST submit to overwhelm Heroku. Checked progress with mLab interface in MongoDB</p>
-		<p>Severity of issue: Low/Medium. Although this can happen to any server or app, measures can be taken to limit requests over a certain amount of time, or by IP address</p>
-		<p>Found within heroku or mLab (Heroku broke first). Any server or database will have an upper limit of requests it can handle, and will stop responding when overloaded. I overloaded it using a bash script, by continuously running requests from terminal</p>
-		<p>
-			<img src="ddos_bash_script.png" alt="Example screenshot of a bash script code"/>
-			<img src="bash_script_2.png" alt="Example of a faster bash script, that doesnt wait for the server's response"/>
-		</p>
-		<p>
-			<img src="dos_attack.png" alt="Screen shot of HTML Page featuring High Scores for 2048, mainly comprised of dos_attack as a username "/>
-			<img src="mongo_after_app_crashed.png" alt="The mongodb interface displaying the number of records and amount of used storage in the database"/>
-			<img src="crashed_app.png" alt="Heroku crashed app message on secret basin"/>
-		</p>
-		<p>This can be resolved by limiting requests using an API Key, requiring users to obtain information in a way that limits the requests it handles at a time.</p>
-
-		</p>
+		<h3>Distributed Denial of Service</h3>
+			<p>Located in the Heroku app, used POST submit to overwhelm Heroku. Checked progress with mLab interface in MongoDB</p>
+			<p>Severity of issue: Low/Medium. Although this can happen to any server or app, measures can be taken to limit requests over a certain amount of time, or by IP address</p>
+			<p>Found within heroku or mLab (Heroku broke first). Any server or database will have an upper limit of requests it can handle, and will stop responding when overloaded. I overloaded it using a bash script, by continuously running requests from terminal</p>
+			<figure>
+				<img src="ddos_bash_script.png" alt="Example screenshot of a bash script code"/>
+				<img src="bash_script_2.png" alt="Example of a faster bash script, that doesnt wait for the server's response"/>
+				<figcaption>Two scripts run to attack the server. The first was primarily used, but slower, so the second was written to speed up the rate of requests, as it does not wait for the server's response.</figcaption>
+			</figure>
+			<figure>
+				<img src="dos_attack.png" alt="Screen shot of HTML Page featuring High Scores for 2048, mainly comprised of dos_attack as a username" style="width:800px"/>
+				<img src="mongo_after_crashed_app.png" alt="The mongodb interface displaying the number of records and amount of used storage in the database" style="width:800px"/>
+				<img src="crashed_app.png" alt="Heroku crashed app message on secret basin" style="width:800px"/>
+			</figure>
+			<p>This can be resolved by limiting requests using an API Key, requiring users to obtain information in a way that limits the requests it handles at a time.</p>
 
 
 	<h2>Conclusion</h2>
 		<p>Overall, this app requires updates to increase its security. By only allowing selective access using Cross Origin Resource Sharing, the page can become more secure. Verifying User input and stripping script tags can prevent the manipulation of the page with XSS. Server limits can be put in place by using an API key to help regulate user requests and prevent overloads. Also, by upgrading services, like the version of MongDB, the application database could handle more volume, although this would cost money, and perhaps be more exepensive than it is worth depending on the plan chosen.</p>
 
 	<h2>References</h2>
-		<ul>
+		<ol>
 			<li><a href="https://www.pluralsight.com/blog/it-ops/ethical-hacking-how-to-create-a-dos-attack">https://www.pluralsight.com/blog/it-ops/ethical-hacking-how-to-create-a-dos-attack</a></li>
 			<li><a href="https://medium.com/bugbountywriteup/exploiting-apis-with-postman-and-google-chrome-ade13ce74e2b">https://medium.com/bugbountywriteup/exploiting-apis-with-postman-and-google-chrome-ade13ce74e2b</a></li>
 			<li><a href="https://github.com/tuftsdev/WebProgramming/tree/gh-pages/examples">https://github.com/tuftsdev/WebProgramming/tree/gh-pages/examples</a></li>
 			<li><a href="https://ryanstutorials.net/bash-scripting-tutorial/bash-loops.php">https://ryanstutorials.net/bash-scripting-tutorial/bash-loops.php</a></li>
 			<li><a href="https://www.npmjs.com/package/cors">https://www.npmjs.com/package/cors</a></li>
-		</ul>
+		</ol>
 
 </body>
 </html>
